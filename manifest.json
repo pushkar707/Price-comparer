@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "Price Comparer",
+    "version": "1.0",
+    "description": "Compares price of products you search on amazon",
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "action": {
+      "default_popup": "popup.html"
+    }
+}
