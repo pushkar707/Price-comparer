@@ -12,13 +12,19 @@ window.addEventListener('load', async () => {
 function scrapeDetails() {
   let title = document.querySelector('h1#title').textContent;
   title = title.trim();
-  title = title.replaceAll("&","%26")
   title = title.replace("%","")
+  title = title.replaceAll("&","%26")
   title = title.replace("/","%2F")
+
+  // Brand Name
+  let brand = document.getElementById("bylineInfo").innerText
+  brand = brand.replace("Visit the ","")
+  brand = brand.replace(" Store","")
+  brand = brand.replace("Brand: ","")
   const price = document.querySelector(".a-price > span.a-offscreen").textContent;
 
   // FETCHING PRODUCT RESULT FROM FLIPKART
-  fetch("http://localhost:8000/flipkart/"+title)
+  fetch(`http://localhost:8000/flipkart?title=${title}&brand=${brand}&price=${price}`)
   .then(res => res.json())
   .then(data => {
     if(data.productFound){

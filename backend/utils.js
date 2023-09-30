@@ -1,4 +1,5 @@
-function calculateLevenshteinDistance(str1, str2) {
+module.exports.calculateLevenshteinDistance = (str1, str2) => {
+  // We are considering word 1 is shorter
   // const minLength = Math.min(str1.length, str2.length);
   str1 = str1.toLowerCase()
   str1 = str1.replaceAll(",","")
