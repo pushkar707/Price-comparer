@@ -1,23 +1,4 @@
-// chrome.webNavigation.onCompleted.addListener((details) => {
-//   // Check if this event is for a tab that your extension is active on
-//   // You can use the URL or other criteria to identify the tab
-//   if (/* Check if this is the tab where your extension should work */) {
-//     // Perform a new API request
-//     makeApiRequest();
-//   }
-// });
 
-// function makeApiRequest() {
-//   // Perform the API request
-//   // Once you have the data, store it in a variable
-//   const apiData = scrapeDetails();
-
-//   // Store the data in Chrome's local storage
-//   chrome.storage.local.set({ 'cachedData': apiData });
-
-//   // Display the data
-//   displayData(apiData);
-// }
 
 window.addEventListener('load', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -33,6 +14,7 @@ function scrapeDetails() {
   title = title.trim();
   title = title.replaceAll("&","%26")
   title = title.replace("%","")
+  title = title.replace("/","%2F")
   const price = document.querySelector(".a-price > span.a-offscreen").textContent;
 
   // FETCHING PRODUCT RESULT FROM FLIPKART
@@ -40,9 +22,9 @@ function scrapeDetails() {
   .then(res => res.json())
   .then(data => {
     if(data.productFound){
-      chrome.runtime.sendMessage({ action: 'detailsFound', data});
+      chrome.runtime.sendMessage({ action: 'detailsFound', data , "amazonTitle":title});
     }else{
-      chrome.runtime.sendMessage({ action: 'detailsNotFound', data});
+      chrome.runtime.sendMessage({ action: 'detailsNotFound'});
     }
   })
 
@@ -51,6 +33,8 @@ function scrapeDetails() {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'detailsFound') {
     const {img, price, title, buyLink} = message.data
+    const {amazonTitle} = message
+    // console.log(calculateLevenshteinDistance(title,amazonTitle));
     document.getElementById('details').innerHTML = `
     <img src="${img}" width=100 height=100>
     <p>${title}</p>
