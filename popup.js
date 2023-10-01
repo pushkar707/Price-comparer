@@ -11,7 +11,7 @@ window.addEventListener('load', async () => {
 });
 
 function scrapeDetails() {
-  let title = document.querySelector('h1').innerText;
+  let title = document.querySelector('h1#title').innerText;
   title = title.trim();
   title = title.replace("%","")
   title = title.replaceAll("&","%26")
