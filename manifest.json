@@ -5,9 +5,17 @@
     "description": "Compares price of products you search on amazon",
     "permissions": [
       "activeTab",
-      "scripting"
+      "scripting",
+      "storage"
     ],
     "action": {
       "default_popup": "popup.html"
-    }
+    },
+    "content_scripts": [
+      {
+        "matches": ["*://www.amazon.in/*"],
+        "js": ["content.js"]
+      }
+    ]
 }
+

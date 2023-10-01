@@ -43,12 +43,9 @@ app.get("/flipkart",async(req,res)=>{
           
             const words1 = str1.split(" ");
             const words2 = str2.split(" ");
-            console.log(words1);
-            console.log(words2);
           
             // Calculate the intersection of word sets
             const intersection = new Set(words1.filter(word => words2.includes(word)));
-            console.log(intersection);
           
             // Calculate Jaccard similarity
             const similarity = (intersection.size / words1.length)*100;
@@ -57,14 +54,11 @@ app.get("/flipkart",async(req,res)=>{
 
         const findBestProduct = (flip_products,title,imgClass,buyLinkClass,priceClass,amaz_title) => {
             let brand_match = []
-            console.log(typeof(flip_products));
             for (const product of flip_products){
                 const flipBrandElem = product.querySelector("._2WkVRV")
                 const flip_title = product.querySelector(title).innerHTML;
                 if(flipBrandElem){
                     const flipBrand = flipBrandElem.innerHTML.toLowerCase()
-                    console.log(brand);
-                    console.log(flipBrand);
                     if(flipBrand == brand){
                         brand_match.push({"title":flip_title,"product":product})
                     }
@@ -86,10 +80,9 @@ app.get("/flipkart",async(req,res)=>{
             // Now I have matching brands
             // Calculating best matching result of these
             if(brand_match.length){
-                let best = {'match':0}
+                let best = {'match':-1}
                 for (const match of brand_match){
                     if(calculateLevenshteinDistance(match.title,amaz_title) > best.match){
-                        console.log("iuhghbiuhygvh");
                         match.match = calculateLevenshteinDistance(match.title,amaz_title)
                         best = match
                     }
